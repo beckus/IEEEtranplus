@@ -1,26 +1,35 @@
 %%
-%% IEEEtran.bst
-%% BibTeX Bibliography Style file for IEEE Journals and Conferences (unsorted)
-%% Version 1.14 (2015/08/26)
-%% 
-%% Copyright (c) 2003-2015 Michael Shell
-%% 
-%% Original starting code base and algorithms obtained from the output of
-%% Patrick W. Daly's makebst package as well as from prior versions of
-%% IEEE BibTeX styles:
-%% 
-%% 1. Howard Trickey and Oren Patashnik's ieeetr.bst  (1985/1988)
-%% 2. Silvano Balemi and Richard H. Roy's IEEEbib.bst (1993)
-%% 
-%% Support sites:
-%% http://www.michaelshell.org/tex/ieeetran/
-%% http://www.ctan.org/pkg/ieeetran
-%% and/or
-%% http://www.ieee.org/
-%% 
-%% For use with BibTeX version 0.99a or later
+%% IEEEtranplus.bst
 %%
-%% This is a numerical citation style.
+%% Version 1.0 (2019/01/12)
+%%
+%% Modified version of IEEEtran.bst which includes additional features.
+%% The additional code and changes are marked.
+%%
+%% The package "hyperref" should be included for links to work properly,
+%% i.e., include the following line in your Latex file's header:
+%%   \usepackage{hyperref}
+%%
+%% The parsing logic for the "file" field is based on the code/algorithm
+%% found in the JabRef source code (version 4.3.1) inside files
+%%   org/jabref/model/entry/FileFieldParser.java
+%%   org/jabref/model/entry/FileFieldWriter.java
+%%
+%% Copyright (c) 2019 Andre Beckus
+%%
+%%
+%%
+%% This file is a Derived Work under the LATEX Project Public License.
+%% The Original Work is as follows:
+%%   bibtex/IEEEtran.bst
+%%   BibTeX Bibliography Style file for IEEE Journals and Conferences (unsorted)
+%%   Version 1.14 (2015/08/26)
+%%   Copyright (c) 2003-2015 Michael Shell
+%%   Available from:
+%%      https://www.michaelshell.org/tex/ieeetran/
+%%      https://www.ctan.org/pkg/ieeetran
+%% 
+%% 
 %% 
 %%*************************************************************************
 %% Legal Notice:
@@ -72,6 +81,66 @@
 
 
 
+
+%% Options for IEEEtranplus
+
+% #0 turns off the display of note on separate line
+% #1 enables
+FUNCTION {default.is.use.note} { #0 }
+
+% #0 turns off the display of urls on separate line
+% #1 enables
+FUNCTION {default.is.use.urlstandalone} { #1 }
+
+% #0 turns off the display of docurl
+% #1 enables
+FUNCTION {default.is.use.docurl} { #1 }
+
+% #0 turns off the display of files
+% #1 enables
+FUNCTION {default.is.use.file} { #1 }
+
+% Set folder where files are stored
+FUNCTION {file.folder} { "./refs/" }
+
+% #0 turns off the display of library info
+% #1 enables
+FUNCTION {default.is.use.library} { #1 }
+
+% #0 turns off the display of note on separate line
+% #1 enables
+FUNCTION {default.is.use.notestandalone} { #1 }
+
+% #0 turns off the display of cite key (internal key used by "\cite" command)
+% #1 enables
+% An alternative way to show internal citation keys is the "showkeys" package.
+% showkeys works well overall, but can have truncation/overlap issues with long keys
+% or when in two column mode.
+FUNCTION {default.is.use.citekey} { #1 }
+
+
+
+% The following two options change category code of
+% percent / hash (#) to normal character (code 12).
+% This is specifically to allow percents in URLs when using
+% "backref" package (otherwise a "Runaway argument" error is given).
+% See https://tex.stackexchange.com/questions/140143/hyperref-with-pagebackref-requires-manual-escaping-of-percentage-signs-in-urls/140148
+
+% #0 default behavior of IEEEtran.bst
+% #1 change category code of percent sign to normal character (code 12)
+FUNCTION {change.percent.catcode} { #1 }
+
+% #0 default behavior of IEEEtran.bst
+% #1 change category code of hash symbol size to normal character (code 12)
+FUNCTION {change.hash.catcode} { #1 }
+
+
+
+
+
+
+%% Options from original IEEEtran.bst
+
 % #0 turns off the display of the number for articles.
 % #1 enables
 FUNCTION {default.is.use.number.for.article} { #1 }
@@ -84,7 +153,7 @@ FUNCTION {default.is.use.paper} { #1 }
 
 % #0 turns off the display of urls
 % #1 enables
-FUNCTION {default.is.use.url} { #1 }
+FUNCTION {default.is.use.url} { #0 }
 
 
 % #0 turns off the forced use of "et al."
@@ -154,18 +223,18 @@ FUNCTION {is.print.banners.to.terminal} { #1 }
 %% FILE VERSION AND BANNER %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-FUNCTION{bst.file.version} { "1.14" }
-FUNCTION{bst.file.date} { "2015/08/26" }
-FUNCTION{bst.file.website} { "http://www.michaelshell.org/tex/ieeetran/bibtex/" }
+FUNCTION{bst.file.version} { "1.0" }
+FUNCTION{bst.file.date} { "2019/01/23" }
+FUNCTION{bst.file.website} { "https://github.com/beckus/ieeetranplus" }
 
 FUNCTION {banner.message}
 { is.print.banners.to.terminal
-     { "-- IEEEtran.bst version" " " * bst.file.version *
-       " (" * bst.file.date * ") " * "by Michael Shell." *
+     { "-- IEEEtranplus.bst version" " " * bst.file.version *
+       " (" * bst.file.date * ") " * "by Andre Beckus (derived from IEEEtran.bst written by Michael Shell)." *
        top$
        "-- " bst.file.website *
        top$
-       "-- See the " quote$ * "IEEEtran_bst_HOWTO.pdf" * quote$ * " manual for usage information." *
+       "-- See the " quote$ * "README" * quote$ * " for usage information." *
        top$
      }
      { skip$ }
@@ -259,17 +328,21 @@ ENTRY
     assignee
     author
     booktitle
+    callnumber % LEGACY TO REMOVE
     chapter
     day
     dayfiled
     edition
     editor
+    file
+    filename % LEGACY TO REMOVE
     howpublished
     institution
     intype
     journal
     key
     language
+    library
     month
     monthfiled
     nationality
@@ -285,6 +358,7 @@ ENTRY
     title
     type
     url
+	docurl
     volume
     year
     yearfiled
@@ -327,11 +401,26 @@ INTEGERS { longest.label.width multiresult nameptr namesleft number.label numnam
 INTEGERS { is.use.number.for.article
            is.use.paper
            is.use.url
+           is.use.docurl
            is.forced.et.al
            max.num.names.before.forced.et.al
            num.names.shown.with.forced.et.al
            is.use.alt.interword.spacing
            is.dash.repeated.names}
+
+% Plus version
+INTEGERS { escaped
+           inxmlchar
+           numcolons
+           keepchar}
+
+INTEGERS { is.use.note
+           is.use.urlstandalone
+           is.use.file
+           is.use.library
+           is.use.notestandalone
+           is.use.citekey
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -348,6 +437,9 @@ STRINGS { bibinfo
           name.latex.cmd
           name.url.prefix}
 
+% Plus version
+STRINGS { escapestringbuffer
+          filebuffer}
 
 
 
@@ -359,6 +451,7 @@ FUNCTION {initialize.controls}
 { default.is.use.number.for.article 'is.use.number.for.article :=
   default.is.use.paper 'is.use.paper :=
   default.is.use.url 'is.use.url :=
+  default.is.use.docurl 'is.use.docurl :=
   default.is.forced.et.al 'is.forced.et.al :=
   default.max.num.names.before.forced.et.al 'max.num.names.before.forced.et.al :=
   default.num.names.shown.with.forced.et.al 'num.names.shown.with.forced.et.al :=
@@ -368,6 +461,12 @@ FUNCTION {initialize.controls}
   default.name.format.string 'name.format.string :=
   default.name.latex.cmd 'name.latex.cmd :=
   default.name.url.prefix 'name.url.prefix :=
+  default.is.use.note 'is.use.note :=
+  default.is.use.urlstandalone 'is.use.urlstandalone := % Plus options
+  default.is.use.file 'is.use.file :=
+  default.is.use.library 'is.use.library :=
+  default.is.use.notestandalone 'is.use.notestandalone :=
+  default.is.use.citekey 'is.use.citekey :=
 }
 
 
@@ -588,7 +687,6 @@ FUNCTION {string.to.integer}
 pop$
 numnames
 }
-
 
 
 
@@ -1015,6 +1113,102 @@ FUNCTION {convert.edition}
 
 
 
+%% Plus helper routines
+
+% Escape characters used to make text Latex compatible
+% Note that we could maybe rework the .bst so that this
+% escaping is not necessary, e.g. by using the
+% \detokenize command... Maybe this would be better,
+% although I have had some issues in the past.
+FUNCTION{escapechar}
+{ duplicate$ "_" =
+      { pop$
+	    "\_" }
+  	  { skip$ }
+  	if$
+  duplicate$ "&" =
+      { pop$
+	    "\&" }
+	  { skip$ }
+	if$
+  duplicate$ "#" =
+      { pop$
+	    "\#" }
+	  { skip$ }
+	if$
+  duplicate$ "%" =
+      { pop$
+	    "\%" }
+	  { skip$ }
+	if$
+  duplicate$ "$" =
+      { pop$
+	    "\$" }
+	  { skip$ }
+	if$
+  duplicate$ "\" =
+      { pop$
+	    "{\textbackslash}" }
+	  { skip$ }
+	if$
+}
+
+% Goes through all characters in string and escapes special characters
+FUNCTION{escapestring}
+{ 'escapestringbuffer :=
+  ""
+  { escapestringbuffer empty$ not } % Loop until all characters processed
+    { escapestringbuffer #1 #1 substring$ escapechar *
+      escapestringbuffer #2 global.max$ substring$ 'escapestringbuffer :=}
+  while$
+}
+
+% Processes filenames for use with \href. Same as escapestring, except ONLY
+% escapes the backslash to make a double basckslash. 
+FUNCTION{escapefilename}
+{ 'escapestringbuffer :=
+  ""
+  { escapestringbuffer empty$ not } % Loop until all characters processed
+    { escapestringbuffer #1 #1 substring$
+	  duplicate$ "\" =
+		  { "\" * } % Add an extra backslash
+		  { skip$ }
+		if$
+	  *
+      escapestringbuffer #2 global.max$ substring$ 'escapestringbuffer :=}
+  while$
+}
+
+% Create link for file
+% Input: File name (Top of stack), Description
+% Note we escape special characters in the second argument to
+% href, but not in the first argument.
+FUNCTION{file.makelink}
+{  duplicate$
+   "\href{" file.folder * swap$ escapefilename * "}{" * swap$ escapestring * "}" *
+}
+
+% Adds code to change the respective category codes. Appends to the string on the stack.
+% Note: if we add this to the begin.bib function, it can cause the "single function space"
+% limit of 100 to be exceeded.
+FUNCTION{change.percenthash.catcodes}
+{  change.percent.catcode
+	 {"\catcode`\%=12" *}
+     {skip$}
+   if$
+   change.hash.catcode
+     {"\catcode`\#=12" *}
+     {skip$}
+   if$
+}
+
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% LATEX BIBLIOGRAPHY CODE %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1045,6 +1239,8 @@ FUNCTION {begin.bib}
   "\begin{thebibliography}{"  longest.label  * "}" *
   write$ newline$
   "\providecommand{\url}[1]{#1}"
+  write$ newline$
+  "\providecommand{\href}[2]{#1}" % If href is not available just display the file link
   write$ newline$
   "\csname url@samestyle\endcsname"
   write$ newline$
@@ -1079,7 +1275,9 @@ FUNCTION {begin.bib}
   write$ newline$
   "#2}}"
   write$ newline$
-  "\providecommand{\BIBdecl}{\relax}"
+  "\providecommand{\BIBdecl}{\relax"
+  change.percenthash.catcodes
+  "}" *
   write$ newline$
   "\BIBdecl"
   write$ newline$
@@ -1716,24 +1914,28 @@ FUNCTION {format.tech.report.number}
 %% note
 
 FUNCTION {format.note}
-{ note empty$
-    { "" }
-    { this.to.prev.status
-      this.status.std
-      punct.period 'this.status.punct :=
-      note #1 #1 substring$
-      duplicate$ "{" =
-        { skip$ }
-        { status.cap
-          { "u" }
-          { "l" }
-        if$
-        change.case$
+{ is.use.note % Added option to turn off inline note
+    { note empty$
+        { "" }
+        { this.to.prev.status
+          this.status.std
+          punct.period 'this.status.punct :=
+          note #1 #1 substring$
+          duplicate$ "{" =
+            { skip$ }
+            { status.cap
+              { "u" }
+              { "l" }
+            if$
+            change.case$
+            }
+          if$
+          note #2 global.max$ substring$ * "note" bibinfo.check
+          cap.yes  'status.cap :=
         }
       if$
-      note #2 global.max$ substring$ * "note" bibinfo.check
-      cap.yes  'status.cap :=
     }
+    { "" }
   if$
 }
 
@@ -1927,6 +2129,207 @@ FUNCTION {format.url}
 }
 
 
+%%% Plus formatting
+
+%% Standalone URL
+
+FUNCTION {format.urlstandalone}
+{ is.use.urlstandalone
+    { url empty$
+      { "" }
+      { cap.yes 'status.cap :=
+        "\\URL: \url{" url * "}" *
+        space.normal 'this.status.space :=
+        space.normal 'prev.status.space :=
+        quote.no 'this.status.quote :=
+      }
+    if$
+    }
+    { "" }
+  if$
+}
+
+%% DOCURL
+
+FUNCTION {format.docurl}
+{ is.use.docurl
+    { docurl empty$
+      { "" }
+      { cap.yes 'status.cap :=
+        "\\DOCURL: \url{" docurl * "}" *
+        space.normal 'this.status.space :=
+        space.normal 'prev.status.space :=
+        quote.no 'this.status.quote :=
+      }
+    if$
+    }
+    { "" }
+  if$
+}
+
+
+%% File
+
+% Note that we access/update numcolons here, which affects the caller
+FUNCTION{file.output}
+{ { numcolons #1 > }
+    { pop$
+      numcolons #1 - 'numcolons :=	}
+  while$
+  numcolons #0 =
+    { file.makelink "\\FILE: " swap$ * output }
+    { file.makelink "\\FILE: " swap$ * % Make the file link
+      swap$ escapestring % Now bring the description to the top of the stack, and escape special characters
+	  " " swap$ * % Generate the description string
+	  * % Concatenate file link and description
+	  output
+	  #0 'numcolons :=
+	}
+  if$
+}
+
+% Matches FileFieldParser.java from JabRef
+FUNCTION{files.output}
+{ 'filebuffer :=
+  #0 'inxmlchar :=
+  #0 'escaped :=
+  #0 'numcolons :=
+  #0 'keepchar :=
+  ""
+  { filebuffer empty$ not }
+	{ #1 'keepchar := % We'll use this to avoid creating a deep if/else tree
+	  filebuffer #1 #1 substring$ % Next character
+	  escaped
+		{ #0 'escaped :=
+		}
+		{ % Otherwise
+		  duplicate$ "\" =
+		    { pop$
+			  #1 'escaped :=
+              #0 'keepchar :=
+			}
+			{ skip$ }
+		  if$
+		  duplicate$ "&" =
+		      { filebuffer #2 #1 substring$ "#" = % Check the next character for #
+			    { #1 'inxmlchar := }
+			    { skip$ }
+		      if$
+		    }
+		    { skip$ }
+		  if$
+		  duplicate$ ";" =
+		    { inxmlchar
+			    { #0 'inxmlchar := }
+			    { pop$
+			      #0 'keepchar :=
+			      file.output
+			      ""
+			    }
+			  if$
+			}
+			{ skip$ }
+	      if$
+		  duplicate$ ":" =
+		    { pop$
+			  #0 'keepchar :=
+			  numcolons #1 + 'numcolons :=
+			  ""
+			}
+			{ skip$ }
+	      if$
+		}
+	  if$
+	  keepchar
+	    % { escapechar * } % We need the unescaped text as well, so comment this out and do escaping later
+		{ * }
+	    { skip$ }
+	  if$
+	  filebuffer #2 global.max$ substring$ 'filebuffer :=
+	}
+  while$
+  duplicate$ empty$ numcolons #0 = and
+    { pop$ }
+    { file.output }
+  if$
+}
+
+FUNCTION {format.file}
+{ is.use.file
+    { file empty$
+	    { skip$ }
+        { file files.output }
+      if$
+    }
+    { skip$ }
+  if$
+}
+
+
+%% Library
+
+%% Library (special characters are automatically escaped)
+
+FUNCTION {format.library}
+{ is.use.library
+    { library empty$
+        { "" }
+        { "\\LIBRARY: " library escapestring *
+        }
+      if$
+    }
+    { "" }
+  if$
+}
+
+
+%% Standalone Note
+
+FUNCTION {format.notestandalone}
+{ is.use.notestandalone
+    { note empty$
+        { "" }
+        { "\\NOTE: " note *
+        }
+      if$
+    }
+    { "" }
+  if$
+}
+
+
+%% Citekey
+
+% We escape the cite key so that underscores, etc. are
+% not a problem. Would it be better to wrap the key
+% in some Latex function?
+FUNCTION {format.citekey}
+{ is.use.citekey
+    { "\\CITEKEY: " cite$ escapestring * }
+    { ""}
+  if$
+}
+
+
+% Print all plus fields on their own lines.
+% Note: Punctuation is disabled for the epilogue.
+FUNCTION {format.outputepilogue}
+{ is.use.urlstandalone is.use.file or is.use.library or is.use.notestandalone or is.use.citekey or
+    { punct.no 'prev.status.punct :=
+      punct.no 'this.status.punct :=
+      quote.no 'prev.status.quote :=
+      quote.no 'this.status.quote :=
+      format.urlstandalone output
+      format.docurl output
+      format.file
+      format.library output
+      format.notestandalone output
+      format.citekey output
+    }
+    { skip$ }
+  if$  
+}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -1951,6 +2354,7 @@ FUNCTION {article}
   format.date "year" output.warn
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -1975,6 +2379,7 @@ FUNCTION {book}
   format.number output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -1992,6 +2397,7 @@ FUNCTION {booklet}
   format.date output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2009,6 +2415,7 @@ FUNCTION {electronic}
   format.address "address" bibinfo.check output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2032,6 +2439,7 @@ FUNCTION {inbook}
   format.pages output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2053,6 +2461,7 @@ FUNCTION {incollection}
   format.pages output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2079,6 +2488,7 @@ FUNCTION {inproceedings}
   format.pages output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2096,6 +2506,7 @@ FUNCTION {manual}
   format.date output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2113,6 +2524,7 @@ FUNCTION {mastersthesis}
   format.date "year" output.warn
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2131,6 +2543,7 @@ FUNCTION {misc}
   format.date output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2147,6 +2560,7 @@ FUNCTION {patent}
   format.patent.date output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2166,6 +2580,7 @@ FUNCTION {periodical}
   format.date "year" output.warn
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2183,6 +2598,7 @@ FUNCTION {phdthesis}
   format.date "year" output.warn
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2205,6 +2621,7 @@ FUNCTION {proceedings}
   if$
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2222,6 +2639,7 @@ FUNCTION {standard}
   format.date output
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2240,6 +2658,7 @@ FUNCTION {techreport}
   format.date "year" output.warn
   format.note output
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2254,6 +2673,7 @@ FUNCTION {unpublished}
   format.date output
   format.note "note" output.warn
   format.url output
+  format.outputepilogue
   fin.entry
   if.url.std.interword.spacing
 }
