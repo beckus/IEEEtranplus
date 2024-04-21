@@ -1,0 +1,35 @@
+@Book{book_test, 
+  author =    {First Author},
+  title =     {Example bibliography book entry}, 
+  year =      {2019},
+  publisher = {Publisher},
+  library =   {Call number QA123.A45},
+  url =       {http://www.bibtex.org/},
+  docurl =       {http://www.google.org/},
+  file =      {filetest1.pdf},
+  note =      {This is a note. It behaves like standard \LaTeX code, and can contain equations $E=mc^2$. Even the cite command seems to work, so that you can cite other entries, e.g. \cite{inproceedings_test}. Make sure to escape special characters like underscores \_.},
+}
+
+@Article{article_test,
+  author =    {Second Author},
+  title =     {Example article entry},
+  journal =   {Journal title},
+  volume =    {1},
+  year =      {2019},
+  library =   {Special characters like _ % # do NOT need to be escaped in this field. You cannot include things like equations here.},
+  url =       {http://www.jabref.org/},
+  file =      {A file with just a description:filetest1.pdf;A file with a description and type:filetest1.pdf:PDF;Escape semicolons which appear in the filename:filetest\;2.pdf;HTML unicode entities are handled by bst (although this example is broken due to issues with Latex - see README).:filetest&#44;3.pdf:PDF;Subfolders can be used:refsub/filetest4.pdf;If backslash \\ is used, make sure to use double backslash \\\\ (in both description and file name):refsub\\filetest4.pdf},
+  note =      {This entry shows a couple of variations for the file field (these are compatible with JabRef). To include a description, use the format ``description:filename'' or ``description:filename:filetype'' (the bst does not use the filetype). The semicolon is used to separate files. The folder where the PDFs are located can be set by changing the ``file.folder'' function in the .bst file.}
+}
+
+@InProceedings{inproceedings_test,
+  author =    {Third Author},
+  title =     {Example in proceedings entry},
+  booktitle = {Proceedings title},
+  volume =    {1},
+  year =      {2019},
+  pages =     {1--10}, 
+  url =       {https://www.latex-project.org/},
+  file =      {Special characters such as _, %, and $ are handled properly. These should NOT be escaped in the description nor file name. Latex code and equations are not allowed in the description (this is a side effect of how the parsing works).:file_test%5$.pdf;Handle escaped colon in file, and ampersand at end of filename (this link does not actually work, though):filetest\:dummy.pdf&;If too many colons are used, they will be ignored:filetest1.pdf:with:too:many:colons;Test with other file types:filetest6.png},
+  note =      {This entry tests a couple special cases encountered in file names. The behavior should match that of JabRef.},
+}

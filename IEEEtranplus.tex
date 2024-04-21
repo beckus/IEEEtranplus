@@ -1,0 +1,41 @@
+% *** This file provides useful header content to be used in combination with IEEEtranplus.bst
+% *** Version 1.0
+
+% Allow for hyperrefs in Bibliography
+\usepackage{hyperref}
+
+% Indicates within each reference where in the document it is cited.
+\usepackage[hyperpageref]{backref}
+
+% Improves formatting of backrefs.
+% See: https://tex.stackexchange.com/questions/183702/formatting-back-references-in-bibliography-bibtex
+\renewcommand*{\backrefalt}[4]{ % Improves formatting of backrefs
+  \ifcase #1
+  \or
+    \\CITATIONS: page #2
+  \else
+    \\CITATIONS: pages #2
+  \fi
+}
+
+
+% The showkeys package provides an alternative mechanism for displaying the citation keys.
+% Uncomment this line to enable:
+% \usepackage[notcite]{showkeys}
+
+
+
+% * The following entries fix glitches when searching in PDF's
+
+% Fixes issues with searching when the text includes ligatures. It seems these both fix the search while maintaining the ligatures - I chose one of them.
+% See https://tex.stackexchange.com/questions/67848/can-pdf-search-find-words-with-ligatures-in-xelatex-documents.
+\usepackage{lmodern}
+%\usepackage{times}
+
+% Per https://tex.stackexchange.com/questions/439651/how-do-i-disable-ligatures, the following lines are the preferred solution to disable ligatures, but the microtype package causes errors.
+%\usepackage{microtype}
+%\DisableLigatures{encoding = *, family = * }
+
+% This fixes an issue where search in PDF does not work when text contains underscores.
+% See: https://latex.org/forum/viewtopic.php?t=8891
+\usepackage[T1]{fontenc}
