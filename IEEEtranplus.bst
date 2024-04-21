@@ -4,7 +4,6 @@
 %% Version 1.0 (2019/01/12)
 %%
 %% Modified version of IEEEtran.bst which includes additional features.
-%% The additional code and changes are marked.
 %%
 %% The package "hyperref" should be included for links to work properly,
 %% i.e., include the following line in your Latex file's header:

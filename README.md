@@ -60,7 +60,7 @@ Produces the following output:
 Note that each field is displayed on its own line. Though this format is very verbose and can significantly extend the length
 of the document, I find it useful for my private bibliography to have all the info displayed in one place for easy browsing.
 
-Full example documents are given in the examples folder.
+Full example documents are given in the [examples folder](https://github.com/beckus/ieeetranplus/tree/main/examples).
 
 
 
@@ -130,7 +130,8 @@ This function might need to be updated to support additional special characters 
     - Available from:
         - https://www.michaelshell.org/tex/ieeetran/
         - https://www.ctan.org/pkg/ieeetran
-    - For a diff showing my modifications, see Github
+    - For a diff showing my modifications, open [this compare in Github](https://github.com/beckus/ieeetranplus/compare/original...main)
+      and view the `IEEEtranplus.bst` file.
 
 
 
