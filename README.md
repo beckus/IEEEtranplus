@@ -75,8 +75,8 @@ Full example documents are given in the [examples folder](https://github.com/bec
 
 - The referenced files should be put in a `ref` subfolder under the folder where your compiled PDF is located
   (this folder is configurable by editing the `IEEEplanplus.bst` file's `file.folder` function). Then, depending on the
-  PDF viewer you are using, you should be able to click on the file name in the PDF and the file will open. This should
-  work in PDF viewers such as Adobe Acrobat and Chrome (tested on Windows). Many PDF viewers allow you to hold the
+  PDF viewer you are using, you should be able to click on the file name in the PDF and the file will open. This
+  works in some PDF viewers such as Adobe Acrobat (tested on Windows). Many PDF viewers allow you to hold the
   "ctrl" key when clicking on the file to open it in a new tab/window.
 
 - The format of the file field is as follows:
